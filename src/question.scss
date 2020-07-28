@@ -1,0 +1,22 @@
+.lrn.lrn_widget.lrn_custom {
+  font-size: 20px;
+
+  input {
+    padding: 7px;
+  }
+
+  .input-wrapper {
+    display: inline-block;
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+
+    .lrn_correct input,
+    .lrn_incorrect input {
+      border: none;
+      background: none;
+    }
+  }
+}

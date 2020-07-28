@@ -2,12 +2,11 @@
 LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
   "use strict";
 
-  function CustomShorttext(init, lrnUtils) {
+  function CustomShorttext(init, tools) {
     this.init = init;
-    this.lrnUtils = lrnUtils;
+    this.tools = tools;
     this.question = init.question;
     this.$el = init.$el;
-
     this.setup();
 
     init.events.trigger("ready");
@@ -17,35 +16,25 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
     render: function () {
       this.$el
         .html(
-          '<div><div class="input-wrapper"><input type="text" /></div></div>'
+          '<div><div class="input-wrapper"><input type="number" /></div></div>'
         )
         .append('<div data-lrn-component="range_scoring_max"/>')
         .append('<div data-lrn-component="range_scoring_min"/>')
-        .append('<div data-lrn-component="suggestedAnswersList"/>')
-        .append('<div data-lrn-component="checkAnswer"/>');
-
-      this.$el
-        .find("input")
-        .width(this.question.width)
-        .height(this.question.height);
-
-      this.lrnUtils.renderComponent(
-        "CheckAnswerButton",
-        this.$el.find('[data-lrn-component="checkAnswer"]').get(0)
-      );
     },
 
     setup: function () {
       var init = this.init;
       var events = init.events;
       var facade = init.getFacade();
-      console.log(this.question.range_scoring_max);
+      var max = this.question.range_scoring_max;
+      var min = this.question.range_scoring_min;
 
       this.updatePublicMethods(facade);
       this.render();
 
       this.$response = $("input", this.$el);
-      this.$correctAnswers = $(".lrn_correctAnswers", this.$el);
+      this.$response.attr("max", max);
+      this.$response.attr("min", min);
 
       if (init.response) {
         this.$response.val(init.response);
@@ -58,7 +47,6 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
           "focus",
           function () {
             this.clearValidationUI();
-            this.hideCorrectAnswers();
           }.bind(this)
         )
         .on("change", function (event) {
@@ -78,9 +66,6 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
           this.clearValidationUI();
           this.showValidationUI(result);
 
-          if (!result && options.showCorrectAnswers) {
-            this.showCorrectAnswers();
-          }
         }.bind(this)
       );
     },
@@ -99,10 +84,6 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
     },
 
     clearValidationUI: function () {
-      this.$correctAnswers
-        .addClass("lrn_hide")
-        .find(".lrn_correctAnswerList")
-        .empty();
 
       var $validatedResponse = this.$el
         .find(".input-wrapper")
@@ -110,47 +91,6 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
 
       $validatedResponse.find(".lrn_validation_icon").remove();
       $validatedResponse.find(".lrn_responseIndex").remove();
-    },
-
-    showCorrectAnswers: function () {
-      var self = this;
-      var correctAnswerText =
-        _.getNested(this.question, "valid_response") || "";
-      var setAnswersToSuggestedList = function () {
-        // Pass in string to display correct answer list without the index
-        // this.suggestedAnswersList.setAnswers(correctAnswerText);
-
-        // Pass in an array of object which contains index and label to render a list
-        // of suggested answers
-        self.suggestedAnswersList.setAnswers([
-          {
-            index: 0,
-            label: correctAnswerText,
-          },
-        ]);
-      };
-
-      if (!this.suggestedAnswersList) {
-        this.lrnUtils
-          .renderComponent(
-            "SuggestedAnswersList",
-            this.$el.find('[data-lrn-component="suggestedAnswersList"]').get(0)
-          )
-          .then(function (component) {
-            self.suggestedAnswersList = component;
-
-            setAnswersToSuggestedList();
-          });
-      } else {
-        setAnswersToSuggestedList();
-      }
-    },
-
-    hideCorrectAnswers: function () {
-      if (this.suggestedAnswersList) {
-        // Clear current suggsted answer list
-        this.suggestedAnswersList.reset();
-      }
     },
 
     updatePublicMethods: function (facade) {
