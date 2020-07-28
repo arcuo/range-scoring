@@ -19,6 +19,8 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
         .html(
           '<div><div class="input-wrapper"><input type="text" /></div></div>'
         )
+        .append('<div data-lrn-component="range_scoring_max"/>')
+        .append('<div data-lrn-component="range_scoring_min"/>')
         .append('<div data-lrn-component="suggestedAnswersList"/>')
         .append('<div data-lrn-component="checkAnswer"/>');
 
@@ -37,6 +39,7 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
       var init = this.init;
       var events = init.events;
       var facade = init.getFacade();
+      console.log(this.question.range_scoring_max);
 
       this.updatePublicMethods(facade);
       this.render();
