@@ -24,7 +24,7 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "server": "http-server --cors",
+    "server": "webpack-dev-server",
     "dev": "webpack -d --display-reasons --progress --colors --watch",
     "prod": "webpack -p --display-reasons --progress --colors"
   },

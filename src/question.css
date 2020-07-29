@@ -1,0 +1,25 @@
+.lrn.lrn_widget.lrn_custom {
+  font-size: 20px;
+}
+.lrn.lrn_widget.lrn_custom input {
+  padding: 7px;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper {
+  display: inline-block;
+}
+
+.lrn.lrn_widget.lrn_custom
+  .input-wrapper
+  input[type="number"]::-webkit-inner-spin-button,
+.lrn.lrn_widget.lrn_custom
+  .input-wrapper
+  input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper .lrn_correct input,
+.lrn.lrn_widget.lrn_custom .input-wrapper .lrn_incorrect input {
+  border: none;
+  background: none;
+}

@@ -4,25 +4,27 @@ LearnosityAmd.define(["underscore-v1.5.2"], function (_) {
 
   function CustomShorttextScorer(question, response) {
     this.question = question;
-    this.response = response;
-    this.validResponse = question.valid_response || {};
+    this.response = parseInt(response);
+    this.max = question.range_scoring_max;
+    this.min = question.range_scoring_min;
+
   }
 
   _.extend(CustomShorttextScorer.prototype, {
     isValid: function () {
-      return this.response === this.validResponse;
+      return this.min <= this.response && this.response <= this.max;
     },
 
     score: function () {
-      return this.isValid() ? this.maxScore() : 0;
+      return this.isValid() ? this.response : this.min;
     },
 
     maxScore: function () {
-      return this.question.score != null ? this.question.score : null;
+      return this.max;
     },
 
     canValidateResponse: function () {
-      return !!this.validResponse;
+      return (!!this.max || this.max === 0) && (!!this.min || this.min === 0);
     },
   });
 

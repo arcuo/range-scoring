@@ -16,10 +16,10 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
     render: function () {
       this.$el
         .html(
-          '<div><div class="input-wrapper"><input type="number" /></div></div>'
+          '<div><div class="input-wrapper"><input type="number" pattern="\\d*" /></div></div>'
         )
         .append('<div data-lrn-component="range_scoring_max"/>')
-        .append('<div data-lrn-component="range_scoring_min"/>')
+        .append('<div data-lrn-component="range_scoring_min"/>');
     },
 
     setup: function () {
@@ -51,6 +51,11 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
         )
         .on("change", function (event) {
           events.trigger("changed", event.currentTarget.value);
+        })
+        // Prevent other than integer
+        .on("keypress", function (event) {
+          var char = event.which;
+          return char === 45 || 48 <= char && char <= 57;
         });
 
       // "validate" event can be triggered when Check Answer button is clicked or when public method .validate() is called
@@ -65,7 +70,6 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
 
           this.clearValidationUI();
           this.showValidationUI(result);
-
         }.bind(this)
       );
     },
@@ -78,13 +82,12 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
         // Add this class to display default Learnosity correct, incorrect style
         .addClass(isCorrect ? "lrn_correct" : "lrn_incorrect")
         // After adding the class "lrn_response_index_visible", you then can inject the response index element
-        .prepend('<span class="lrn_responseIndex"><span>1</span></span>')
+        // .prepend('<span class="lrn_responseIndex"><span>1</span></span>')
         // Add this element if you want to display to corresponding validation (cross, tick) icon
         .append('<span class="lrn_validation_icon"/>');
     },
 
     clearValidationUI: function () {
-
       var $validatedResponse = this.$el
         .find(".input-wrapper")
         .removeClass("lrn_incorrect lrn_correct");
