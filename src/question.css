@@ -1,12 +1,19 @@
 .lrn.lrn_widget.lrn_custom {
   font-size: 20px;
 }
-.lrn.lrn_widget.lrn_custom input {
-  padding: 7px;
+
+/* Number input  */
+.lrn.lrn_widget.lrn_custom .input-wrapper {
+  margin: 0;
 }
 
-.lrn.lrn_widget.lrn_custom .input-wrapper {
-  display: inline-block;
+.lrn.lrn_widget.lrn_custom .input-wrapper input {
+  width: 5rem;
+  padding: 7px;
+  border-radius: 0 !important;
+  border-left-color: transparent !important;
+  border: 1px solid #e0e1e2;
+  text-align: center;
 }
 
 .lrn.lrn_widget.lrn_custom
@@ -15,11 +22,36 @@
 .lrn.lrn_widget.lrn_custom
   .input-wrapper
   input[type="number"]::-webkit-outer-spin-button {
-  opacity: 1;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
 }
 
+.lrn.lrn_widget.lrn_custom .input-wrapper .button.decrease {
+  border-radius: 0.28571429rem 0 0 0.28571429rem;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper .button {
+  outline: none !important;
+  font-size: 1.4rem;
+  padding: .78571429em;
+}
+
+.lrn.lrn_widget.lrn_custom .question-wrapper {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+/* Correct/Incorrect */
 .lrn.lrn_widget.lrn_custom .input-wrapper .lrn_correct input,
 .lrn.lrn_widget.lrn_custom .input-wrapper .lrn_incorrect input {
   border: none;
   background: none;
+}
+
+/* Input labels */
+.lrn.lrn_widget.lrn_custom .input-label {
+  padding: 0 1em;
 }

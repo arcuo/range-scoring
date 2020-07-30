@@ -15,11 +15,20 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
   _.extend(CustomShorttext.prototype, {
     render: function () {
       this.$el
+        .addClass("question-wrapper")
         .html(
-          '<div><div class="input-wrapper"><input type="number" pattern="\\d*" /></div></div>'
+          `<div class="input-wrapper ui action input" >
+            <button class="decrease ui button">-</button>
+            <input id="response" type="number" />
+            <button class="increase ui button">+</button>
+          </div>`
         )
-        .append('<div data-lrn-component="range_scoring_max"/>')
-        .append('<div data-lrn-component="range_scoring_min"/>');
+        .prepend(
+          '<div class="input-label" data-lrn-component="range_scoring_min"/>'
+        )
+        .append(
+          '<div class="input-label" data-lrn-component="range_scoring_max"/>'
+        );
     },
 
     setup: function () {
@@ -32,30 +41,112 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
       this.updatePublicMethods(facade);
       this.render();
 
-      this.$response = $("input", this.$el);
-      this.$response.attr("max", max);
-      this.$response.attr("min", min);
-
-      if (init.response) {
-        this.$response.val(init.response);
+      // Add attributes to input
+      this.$input = $("input", this.$el).attr("max", max).attr("min", min);
+      if (!this.$input.attr("value")) {
+        var middle = min + max / 2;
+        this.$input.attr("value", middle); // Default start value to middle point
+        events.trigger("changed", middle);
       }
 
-      // Developer is responsible to know when to clean up the validation UI as well as when to trigger the 'changed' event to update
-      // the model value
-      this.$response
-        .on(
-          "focus",
+      this.dom_input = document.getElementById("response");
+      const increase = function () {
+        this.dom_input.stepUp();
+        events.trigger("changed", this.dom_input.value);
+      }.bind(this);
+      const decrease = function () {
+        this.dom_input.stepDown();
+        events.trigger("changed", this.dom_input.value);
+      }.bind(this);
+      var increasing = false;
+      var decreasing = false;
+      var keydown = false;
+
+      const hold = function (direction) {
+        const dir = direction === "add";
+        var repeater = setInterval(
           function () {
-            this.clearValidationUI();
-          }.bind(this)
-        )
+            if (!decreasing && !increasing) {
+              clearInterval(repeater);
+              return;
+            }
+            dir ? increase() : decrease();
+          }.bind(this),
+          50
+        );
+      }.bind(this);
+
+      // Increase/Decrease buttons
+      this.$inc = $("button.increase", this.$el).on(
+        "mousedown keydown",
+        (evt) => {
+          if (
+            (evt.type == "keydown" && evt.which == 13 && !keydown) ||
+            evt.type == "mousedown"
+          ) {
+            keydown = true;
+            increase();
+            increasing = true;
+            setTimeout(() => {
+              if (increasing) {
+                hold("add");
+              }
+            }, 500);
+          }
+        }
+      );
+      this.$inc = $("button.increase", this.$el).on("mouseup keyup", () => {
+        keydown = false;
+        increasing = false;
+      });
+
+      this.$inc = $("button.decrease", this.$el).on(
+        "mousedown keydown",
+        (evt) => {
+          if (
+            (evt.type == "keydown" && evt.which == 13 && !keydown) ||
+            evt.type == "mousedown"
+          ) {
+            keydown = true;
+            decrease();
+            decreasing = true;
+            setTimeout(() => {
+              if (decreasing) {
+                hold("sub");
+              }
+            }, 500);
+          }
+        }
+      );
+      this.$inc = $("button.decrease", this.$el).on("mouseup keyup", () => {
+        keydown = false;
+        decreasing = false;
+      });
+
+      // Labels
+      this.$min = $(
+        "div[data-lrn-component='range_scoring_min']",
+        this.$el
+      ).html(`${min} \u2264`);
+      this.$max = $(
+        "div[data-lrn-component='range_scoring_max']",
+        this.$el
+      ).html(`\u2264 ${max}`);
+
+      if (init.response) {
+        this.$input.val(init.response);
+      }
+
+      // trigger the 'changed' event to update the model value
+      this.$input
         .on("change", function (event) {
+          console.log("change");
           events.trigger("changed", event.currentTarget.value);
         })
-        // Prevent other than integer
+        // Prevent other than integer when writing
         .on("keypress", function (event) {
           var char = event.which;
-          return char === 45 || 48 <= char && char <= 57;
+          return char === 45 || char === 13 || (48 <= char && char <= 57);
         });
 
       // "validate" event can be triggered when Check Answer button is clicked or when public method .validate() is called
@@ -103,18 +194,18 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
       var _enable = facade.enable;
       facade.enable = function () {
         _enable();
-        self.$response.prop("disabled", false);
+        self.$input.prop("disabled", false);
       };
 
       var _disable = facade.disable;
       facade.disable = function () {
         _disable();
-        self.$response.prop("disabled", true);
+        self.$input.prop("disabled", true);
       };
 
       // Add new public methods
       facade.reset = function () {
-        self.$response.val("").trigger("changed");
+        self.$input.val("").trigger("changed");
       };
     },
   });
