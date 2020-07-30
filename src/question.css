@@ -12,7 +12,7 @@
   padding: 7px;
   border-radius: 0 !important;
   border-left-color: transparent !important;
-  border: 1px solid #e0e1e2;
+  border: 1px solid rgb(224, 225, 226);
   text-align: center;
 }
 
@@ -45,10 +45,42 @@
 }
 
 /* Correct/Incorrect */
-.lrn.lrn_widget.lrn_custom .input-wrapper .lrn_correct input,
-.lrn.lrn_widget.lrn_custom .input-wrapper .lrn_incorrect input {
-  border: none;
-  background: none;
+.lrn.lrn_widget.lrn_custom .input-wrapper.correct input {
+  border: 1px solid rgb(74, 112, 10);
+  background: #ebf6e7;
+}
+.lrn.lrn_widget.lrn_custom .input-wrapper.correct button {
+  background:rgb(74, 112, 10);
+  color: #ffffff;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.correct button:hover,
+.lrn.lrn_widget.lrn_custom .input-wrapper.correct button:focus {
+  background:rgb(64, 95, 9);
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.correct button:active {
+  background:rgb(52, 78, 7);
+}
+
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.incorrect input {
+  border: 1px solid rgb(221, 0, 47);
+  background: #fbe3e3;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.incorrect button {
+  background:rgb(221, 0, 47);
+  color: #ffffff;
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.incorrect button:hover,
+.lrn.lrn_widget.lrn_custom .input-wrapper.incorrect button:focus {
+  background:rgb(177, 1, 39);
+}
+
+.lrn.lrn_widget.lrn_custom .input-wrapper.incorrect button:active {
+  background:rgb(160, 1, 36);
 }
 
 /* Input labels */
