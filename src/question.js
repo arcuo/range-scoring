@@ -66,7 +66,7 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
         const dir = direction === "add";
         var repeater = setInterval(
           function () {
-            if (!decreasing && !increasing) {
+            if ((!decreasing && !increasing) || (decreasing && increasing)) {
               clearInterval(repeater);
               return;
             }
@@ -170,11 +170,11 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
         // Add "lrn_response_index_visible" class if you want to display the index of current response
         // .addClass("lrn_response_index_visible")
         // Add this class to display default Learnosity correct, incorrect style
-        .addClass(isCorrect ? "correct" : "incorrect")
-        // After adding the class "lrn_response_index_visible", you then can inject the response index element
-        // .prepend('<span class="lrn_responseIndex"><span>1</span></span>')
-        // Add this element if you want to display to corresponding validation (cross, tick) icon
-        // .append('<span class="lrn_validation_icon"/>');
+        .addClass(isCorrect ? "correct" : "incorrect");
+      // After adding the class "lrn_response_index_visible", you then can inject the response index element
+      // .prepend('<span class="lrn_responseIndex"><span>1</span></span>')
+      // Add this element if you want to display to corresponding validation (cross, tick) icon
+      // .append('<span class="lrn_validation_icon"/>');
     },
 
     clearValidationUI: function () {
