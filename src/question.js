@@ -35,8 +35,8 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
       var init = this.init;
       var events = init.events;
       var facade = init.getFacade();
-      var max = this.question.range_scoring_max;
-      var min = this.question.range_scoring_min;
+      var max = this.question.validation.valid_response.score;
+      var min = this.question.validation.min_score_if_attempted;
 
       this.updatePublicMethods(facade);
       this.render();
@@ -44,7 +44,7 @@ LearnosityAmd.define(["underscore-v1.5.2", "jquery-v1.10.2"], function (_, $) {
       // Add attributes to input
       this.$input = $("input", this.$el).attr("max", max).attr("min", min);
       if (!this.$input.attr("value")) {
-        var middle = min + max / 2;
+        var middle = Math.round((min + max) / 2);
         this.$input.attr("value", middle); // Default start value to middle point
         events.trigger("changed", middle);
       }

@@ -5,9 +5,8 @@ LearnosityAmd.define(["underscore-v1.5.2"], function (_) {
   function CustomShorttextScorer(question, response) {
     this.question = question;
     this.response = parseInt(response);
-    this.max = question.range_scoring_max;
-    this.min = question.range_scoring_min;
-
+    this.max = this.question.validation.valid_response.score;
+    this.min = this.question.validation.min_score_if_attempted;
   }
 
   _.extend(CustomShorttextScorer.prototype, {
