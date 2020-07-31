@@ -1,17 +1,33 @@
 <div class="lrn-qe-edit-form">
-  <div class="lrn-qe-row-flex">
-    <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-12">
-      <span data-lrn-qe-label="stimulus"></span>
-      <span data-lrn-qe-input="stimulus"></span>
-    </div>
+  <!-- Stimulus -->
+  <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-12">
+    <span data-lrn-qe-label="stimulus"></span>
+    <span data-lrn-qe-input="stimulus"></span>
+  </div>
 
+  <!-- Validation -->
+  <span data-lrn-qe-label="validation" data-lrn-qe-section="validation.heading" class="lrn-qe-h4 lrn-qe-section-header lrn-qe-text-bold lrn-qe-border-none"></span>
+  <div class="lrn-qe-row-flex">
     <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-6">
-      <span data-lrn-qe-label="range_scoring_min"></span>
-      <span data-lrn-qe-input="range_scoring_min" class="lrn-qe-form-control-sm"></span>
+      <span data-lrn-qe-label="labels.max"></span>
+      <span data-lrn-qe-input="validation.valid_response.score" class="lrn-qe-form-control-sm"></span>
     </div>
-    <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-2">
-      <span data-lrn-qe-label="range_scoring_max"></span>
-      <span data-lrn-qe-input="range_scoring_max" class="lrn-qe-form-control-sm"></span>
+    <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-6">
+      <span data-lrn-qe-label="labels.min"></span>
+      <span data-lrn-qe-input="validation.min_score_if_attempted" class="lrn-qe-form-control-sm"></span>
+    </div>
+  </div>
+
+  <!-- More options -->
+  <button type="button" class="lrn-qe-form-label lrn-qe-margin-top-none lrn-qe-more-options" data-lrn-qe-adv-toggle data-lrn-qe-section="more_options.heading">
+    <span class="lrn-qe-i-arrow lrn-qe-inline-block" data-lrn-qe-section="more_options.toggle"></span>
+    <span class="lrn-qe-inline-block lrn-qe-text-bold"><label class="lrn-qe-label lrn-qe-form-label-name" data-lrn-qe-i18n-label="heading.moreOptions" value="More options"></label></span>
+  </button>
+
+  <div data-lrn-qe-adv-content data-lrn-qe-section="more_options.content">
+    <div class="lrn-qe-col-xs-12 lrn-qe-col-sm-6" data-lrn-qe-layout-wrapper>
+      <span data-lrn-qe-input="slider" class="lrn-qe-inline-block"></span>
+      <span data-lrn-qe-label="slider" class="lrn-qe-inline-block lrn-qe-margin-left-xs"></span>
     </div>
   </div>
 </div>
